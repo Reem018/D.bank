@@ -1,0 +1,1918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>D.Bank — Home</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        "blue-300": "rgba(147,197,253,1)",
+        "blue-400": "rgba(96,165,250,1)",
+        "blue-700": "rgba(29,78,216,1)",
+        "blue-800": "rgba(26,52,97,1)",
+        "blue-900": "rgba(13,31,60,1)",
+        "blue-950": "rgba(10,22,40,1)",
+        "glassblue-15": "rgba(37,99,235,0.15)",
+        "neutral-200": "rgba(229,229,229,1)",
+        "neutral-400": "rgba(163,163,163,1)",
+        "neutralwhite": "rgba(255,255,255,1)",
+        "primitives-colors-blue-50": "rgba(243,248,255,1)",
+        "primitives-colors-blue-100": "rgba(217,233,255,1)",
+        "primitives-colors-blue-300": "rgba(101,152,240,1)",
+        "primitives-colors-neutrals-0": "rgba(255,255,255,1)",
+        "primitives-colors-neutrals-100": "rgba(241,244,247,1)",
+        "primitives-colors-neutrals-300": "rgba(202,207,217,1)",
+        "primitives-colors-red-500": "rgba(214,27,27,1)",
+        "purple-500": "rgba(168,85,247,1)",
+        "purple-950": "rgba(26,9,56,1)",
+        "tokens-actions-box-button-action-boxbuttondefault": "rgba(245,247,250,1)",
+        "tokens-actions-box-button-action-boxbuttondisabled": "rgba(228,230,235,1)",
+      }
+    }
+  }
+}
+</script>
+<link href="https://fonts.googleapis.com/css?family=Roboto:500" rel="stylesheet"/>
+<style>
+@font-face {
+  font-family: "Helvetica Neue-Medium";
+  src: url("https://anima-uploads.s3.amazonaws.com/projects/63dcde9badcdfbdea71f504c/fonts/helveticaneuemed.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Helvetica Neue-Bold";
+  src: url("https://anima-uploads.s3.amazonaws.com/projects/637de592a17e9f3ed8e13315/fonts/helveticaneue-bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Helvetica Neue-Regular";
+  src: url("https://anima-uploads.s3.amazonaws.com/projects/66dbe8113cbd8877008f2c1a/fonts/5796578-1.svg") format("svg");
+}
+* { -webkit-font-smoothing: antialiased; box-sizing: border-box; }
+html, body { margin: 0; background: #0d0d14; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 40px 20px 60px; }
+
+/* Phone shell */
+.phone-shell {
+  position: relative;
+  width: 430px;
+  flex-shrink: 0;
+  background: #1a1a2e;
+  border-radius: 54px;
+  padding: 14px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.08),
+    0 0 0 2px rgba(255,255,255,0.04),
+    0 40px 80px rgba(0,0,0,0.7),
+    0 0 60px rgba(99,102,241,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 -1px 0 rgba(0,0,0,0.5);
+}
+
+/* Side buttons */
+.phone-shell::before {
+  content: '';
+  position: absolute;
+  left: -3px;
+  top: 120px;
+  width: 3px;
+  height: 36px;
+  background: #2a2a3e;
+  border-radius: 3px 0 0 3px;
+  box-shadow: 0 50px 0 #2a2a3e, 0 100px 0 #2a2a3e;
+}
+.phone-shell::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 160px;
+  width: 3px;
+  height: 70px;
+  background: #2a2a3e;
+  border-radius: 0 3px 3px 0;
+}
+
+/* Screen area */
+.phone-screen {
+  position: relative;
+  border-radius: 42px;
+  overflow: hidden;
+  background: #000;
+  width: 100%;
+  height: 844px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollable content inside phone */
+.phone-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 88px;
+}
+.phone-scroll::-webkit-scrollbar { display: none; }
+
+#nav-root {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+/* Dynamic island */
+.dynamic-island {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 34px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 100;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.dynamic-island .camera {
+  width: 12px; height: 12px;
+  background: #0d0d0d;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.06);
+  position: relative;
+}
+.dynamic-island .camera::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 5px; height: 5px;
+  background: #1a1a2e;
+  border-radius: 50%;
+}
+.dynamic-island .speaker {
+  width: 52px; height: 6px;
+  background: #0d0d0d;
+  border-radius: 3px;
+}
+
+/* Reflection sheen */
+.phone-sheen {
+  position: absolute;
+  top: 14px; left: 14px; right: 14px;
+  height: 180px;
+  border-radius: 42px 42px 0 0;
+  background: linear-gradient(160deg, rgba(255,255,255,0.06) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 200;
+}
+
+/* Page background */
+.page-bg {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(99,102,241,0.12) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 80%, rgba(124,58,237,0.08) 0%, transparent 55%),
+              #0d0d14;
+  z-index: -1;
+}
+
+/* Glass panel card */
+.panel-card {
+  position: relative;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0px 3px 6px #00000021,
+    inset 0 1px 0 rgba(255,255,255,0.40),
+    inset 1px 0 0 rgba(255,255,255,0.32),
+    inset 0 -1px 25px rgba(0,0,0,0.16),
+    inset -1px 0 25px rgba(0,0,0,0.13);
+  -webkit-backdrop-filter: blur(38px) brightness(100%) saturate(105%);
+  backdrop-filter: blur(38px) brightness(100%) saturate(105%);
+  background: linear-gradient(60deg, rgba(13,31,60,0.2) 0%, rgba(37,99,235,0.2) 50%, rgba(124,58,237,0.2) 100%);
+}
+.panel-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: 20px;
+  background: linear-gradient(60deg, rgba(124,58,237,0.3) 0%, rgba(37,99,235,0.3) 45%, rgba(255,255,255,0.3) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Glass mini card */
+.glass-card {
+  width: 145px;
+  height: 145px;
+  position: relative;
+  border-radius: 16px;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 4px;
+  background: rgba(37, 99, 235, 0.15);
+  -webkit-backdrop-filter: blur(2px) brightness(100%) saturate(100%) hue-rotate(-5deg);
+  backdrop-filter: blur(2px) brightness(100%) saturate(100%) hue-rotate(-5deg);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.40),
+    inset 1px 0 0 rgba(255,255,255,0.32),
+    inset 0 -1px 1px rgba(0,0,0,0.15),
+    inset -1px 0 1px rgba(0,0,0,0.12);
+}
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: 16px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: 1;
+  pointer-events: none;
+}
+.glass-card-g1::before { background: linear-gradient(90deg, rgba(6,6,6,0.5) 0%, rgba(37,99,235,0.5) 52%, rgba(124,58,237,0.5) 100%); }
+.glass-card-g2::before { background: linear-gradient(90deg, rgba(13,31,60,0.5) 0%, rgba(37,99,235,0.5) 50%, rgba(124,58,237,0.5) 100%); }
+
+.dashed-card {
+  width: 145px;
+  height: 145px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: 16px 12px;
+  position: relative;
+  border-radius: 16px;
+  border: 1px dashed rgba(163,163,163,1);
+}
+
+@keyframes spin-dot {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(356deg); }
+}
+
+/* HN font helpers */
+.hn-med { font-family: 'Helvetica Neue-Medium', Helvetica, sans-serif; font-weight: 500; }
+.hn-bold { font-family: 'Helvetica Neue-Bold', Helvetica, sans-serif; font-weight: 700; }
+.hn-reg { font-family: 'Helvetica Neue-Regular', Helvetica, sans-serif; font-weight: 400; }
+</style>
+</head>
+<body>
+<div class="page-bg"></div>
+<div class="phone-shell">
+  <div class="phone-screen">
+    <div class="dynamic-island">
+      <div class="camera"></div>
+      <div class="speaker"></div>
+    </div>
+    <div class="phone-sheen"></div>
+    <div class="phone-scroll" id="phone-scroll">
+      <div id="root"></div>
+    </div>
+    <div id="nav-root"></div>
+  </div>
+</div>
+
+<script type="text/babel">
+const { useState } = React;
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const quickActions = [
+  { label: ["Account", "Details"], icon: "https://c.animaapp.com/1v3dLG4K/img/bank.svg", alt: "Account details", bg: true },
+  { label: ["Add", "Money"],       icon: "https://c.animaapp.com/1v3dLG4K/img/income.svg", alt: "Add money", bg: true },
+  { label: ["Move", "Money"],      icon: "https://c.animaapp.com/1v3dLG4K/img/transfer.svg", alt: "Move money", bg: false },
+  { label: ["View", "Card"],       icon: "https://c.animaapp.com/1v3dLG4K/img/card.svg", alt: "View card", bg: true },
+];
+
+const transactions = [
+  { name: "Ahmed Galal",  amount: "20,000", sign: "+", positive: true,  avatar: "https://c.animaapp.com/1v3dLG4K/img/atom---default-1@2x.png", initials: null },
+  { name: "Youssef Amr",  amount: "1,000",  sign: "-", positive: false, avatar: null, initials: "Y" },
+  { name: "Rania Ahmed",  amount: "1,000",  sign: "+", positive: true,  avatar: null, initials: "R" },
+];
+
+const ownCards = [
+  { title: "Accounts",    amount: "80,000",     meta: "3 PERSONAL, 2 LINKED", img: "https://c.animaapp.com/1v3dLG4K/img/component-1.svg",   variant: "glass", gClass: "glass-card-g1" },
+  { title: "Deposits",    amount: "10,000,000", meta: "3 CDS",                img: "https://c.animaapp.com/1v3dLG4K/img/deposits.svg",        variant: "glass", gClass: "glass-card-g2" },
+  { title: "Investments", cta: "Invest in stocks",                            img: "https://c.animaapp.com/1v3dLG4K/img/component-1-1.svg",   variant: "dashed" },
+];
+
+const oweCards = [
+  { title: "Loans",        cta: "Apply for a loan",                          img: "https://c.animaapp.com/1v3dLG4K/img/component-1-2.svg",   variant: "dashed" },
+  { title: "Credit Cards", amount: "80,000", meta: "1 CARD",                 img: "https://c.animaapp.com/1v3dLG4K/img/component-1-3.svg",   variant: "glass", gClass: "glass-card-g1" },
+];
+
+const navItems = [
+  { label: "Home",        icon: "https://c.animaapp.com/1v3dLG4K/img/32px---home---.svg",  active: true  },
+  { label: "Move money",  icon: "https://c.animaapp.com/1v3dLG4K/img/transfer-2.svg",       active: false },
+  { label: "Investments", icon: "https://c.animaapp.com/1v3dLG4K/img/analytics.svg",        active: false },
+  { label: "Apply",       icon: "https://c.animaapp.com/1v3dLG4K/img/general.svg",          active: false },
+  { label: "Help",        icon: "https://c.animaapp.com/1v3dLG4K/img/life-buoy.svg",        active: false },
+];
+
+const monthDays = ["1", "6", "11", "16", "21", "26", "30"];
+
+// ─── COMPONENTS ──────────────────────────────────────────────────────────────
+
+function SectionHeader({ title, chevron = true, bold = false }) {
+  return (
+    <div className="flex items-center justify-between w-full">
+      <span className={`text-white text-sm tracking-tight leading-5 ${bold ? "hn-bold" : "hn-med"}`}>{title}</span>
+      {chevron && <img src="https://c.animaapp.com/1v3dLG4K/img/chevron-right-6.svg" alt="" className="w-5 h-5"/>}
+    </div>
+  );
+}
+
+function MoneyAmount({ label, amount, bold = false }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <span className={`text-white text-sm tracking-tight leading-5 ${bold ? "hn-bold" : "hn-med"}`}>{label}</span>
+      <div className="flex items-end gap-0.5">
+        <span className="text-white text-sm hn-med leading-5 pb-0.5">EGP</span>
+        <span className={`text-white text-2xl tracking-tight leading-7 ${bold ? "hn-bold" : "hn-med"}`}>{amount}</span>
+        <span className={`text-white text-sm tracking-tight leading-5 pb-0.5 ${bold ? "hn-bold" : "hn-med"}`}>.00</span>
+      </div>
+    </div>
+  );
+}
+
+function AssetCard({ title, amount, meta, cta, img, variant, gClass }) {
+  return (
+    <div className={`${variant === "glass" ? `glass-card ${gClass}` : "dashed-card"}`}>
+      <span className="hn-reg text-white text-[10px] leading-4 w-[115px] z-10">{title}</span>
+      {variant === "glass" ? (
+        <>
+          <p className="hn-med text-white text-[10px] leading-3 w-[115px] z-10">
+            EGP <span className="hn-bold text-sm">{amount}</span><span className="hn-med text-[10px]">.00</span>
+          </p>
+          <span className="hn-reg text-neutral-200 text-[10px] tracking-wider leading-3 z-10">{meta}</span>
+        </>
+      ) : (
+        <span className="hn-bold text-blue-300 text-sm tracking-tight leading-5 z-10">{cta}</span>
+      )}
+      <img src={img} alt={title} className="absolute top-0.5 left-[65px] w-20 h-20"/>
+    </div>
+  );
+}
+
+function DonutChart() {
+  const radius = 90;
+  const circumference = 2 * Math.PI * radius;
+  const debitsPct = 0.992;
+  const debitsArc = debitsPct * circumference - 4;
+  const assetsArc = Math.max(circumference * 0.008 - 4, 6);
+  const debitsOffset = circumference / 4;
+  const assetsOffset = circumference / 4 - debitsArc - 4;
+  const size = 220;
+  const cx = size / 2; const cy = size / 2;
+
+  const [animated, setAnimated] = useState(false);
+  const [countVal, setCountVal]  = useState(0);
+  const chartRef = React.useRef(null);
+
+  // Trigger on scroll into view
+  React.useEffect(() => {
+    const el = chartRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setAnimated(true); observer.disconnect(); } },
+      { threshold: 0.4 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Count-up number when animated
+  React.useEffect(() => {
+    if (!animated) return;
+    const target = 99.2;
+    const duration = 1200;
+    const start = performance.now();
+    const tick = (now) => {
+      const p = Math.min((now - start) / duration, 1);
+      // ease-out cubic
+      const ease = 1 - Math.pow(1 - p, 3);
+      setCountVal(+(target * ease).toFixed(1));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, [animated]);
+
+  // Animate arc lengths from 0 → final
+  const currentDebitsArc = animated ? debitsArc : 0;
+  const currentAssetsArc = animated ? assetsArc : 0;
+
+  return (
+    <svg ref={chartRef} width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-label="Net worth donut">
+      <defs>
+        <filter id="glow-blue">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="glow-purple">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      {/* Track */}
+      <circle cx={cx} cy={cy} r={radius} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={22}/>
+
+      {/* Debits arc */}
+      <circle cx={cx} cy={cy} r={radius} fill="none" stroke="#5B6CF9" strokeWidth={22}
+        strokeLinecap="round" filter="url(#glow-blue)"
+        strokeDasharray={`${currentDebitsArc} ${circumference}`}
+        strokeDashoffset={debitsOffset}
+        style={{ transition: animated ? "stroke-dasharray 1.2s cubic-bezier(0.34,1.2,0.64,1)" : "none" }}/>
+
+      {/* Assets arc */}
+      <circle cx={cx} cy={cy} r={radius} fill="none" stroke="#C084FC" strokeWidth={22}
+        strokeLinecap="round" filter="url(#glow-purple)"
+        strokeDasharray={`${currentAssetsArc} ${circumference}`}
+        strokeDashoffset={assetsOffset}
+        style={{ transition: animated ? "stroke-dasharray 1.4s cubic-bezier(0.34,1.2,0.64,1) 0.3s" : "none" }}/>
+
+      {/* Spinning highlight dot — only while animating */}
+      {animated && countVal < 99.2 && (
+        <circle cx={cx} cy={cy - radius} r={5} fill="white" opacity="0.9"
+          style={{ transformOrigin:`${cx}px ${cy}px`,
+            animation:"spin-dot 1.2s cubic-bezier(0.34,1.2,0.64,1) forwards" }}/>
+      )}
+
+      {/* Center count-up */}
+      <text x={cx} y={cy - 8} textAnchor="middle" dominantBaseline="middle"
+        fill="white" fontSize="28" fontFamily="Helvetica Neue, Helvetica, sans-serif"
+        fontWeight="600" letterSpacing="-0.5">
+        {countVal.toFixed(1)}
+      </text>
+      <text x={cx} y={cy + 18} textAnchor="middle" dominantBaseline="middle"
+        fill="rgba(255,255,255,0.55)" fontSize="13" fontFamily="Helvetica Neue, Helvetica, sans-serif">%</text>
+    </svg>
+  );
+}
+
+// ─── SWIPEABLE CARDS ─────────────────────────────────────────────────────────
+
+const bankCards = [
+  {
+    id: 0,
+    type: "image",
+    img: "https://www.figma.com/api/mcp/asset/8ce745d0-749a-4cfa-8e9b-a14fd91488e3",
+    label: "Debit Card",
+  },
+  {
+    id: 1,
+    type: "image",
+    img: "https://www.figma.com/api/mcp/asset/52b46966-f38f-41c1-951c-936f6f90e531",
+    label: "Prepaid Card",
+  },
+  {
+    id: 2,
+    type: "image",
+    img: "https://www.figma.com/api/mcp/asset/34256393-aa72-40eb-994c-7ff01ae380b3",
+    label: "Credit Card",
+  },
+  {
+    id: 3,
+    type: "new",
+    label: "Get a new Card",
+  },
+];
+
+const plusIconUrl = "https://www.figma.com/api/mcp/asset/becde648-6d14-4570-999c-6912c8aaf021";
+
+function CardFace({ card, style, isTop }) {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        width: 270,
+        height: 160,
+        borderRadius: 16,
+        background: card.type === "new" ? "#1a1a1a" : "transparent",
+        overflow: "hidden",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.45)",
+        cursor: isTop ? "grab" : "default",
+        userSelect: "none",
+        ...style,
+      }}
+    >
+      {card.type === "image" && (
+        <img src={card.img} alt={card.label}
+          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", borderRadius: 16 }}
+          draggable={false}/>
+      )}
+      {card.type === "new" && (
+        <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column",
+          alignItems: "center", justifyContent: "center", gap: 12 }}>
+          <img src={plusIconUrl} alt="Add" style={{ width: 40, height: 40 }}/>
+          <span style={{ fontFamily: "'Helvetica Neue-Regular',Helvetica,sans-serif",
+            color: "white", fontSize: 13, textAlign: "center" }}>
+            Get a new Card
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SwipeableCards() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [dragX, setDragX] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const startXRef = React.useRef(null);
+  const containerRef = React.useRef(null);
+  const total = bankCards.length;
+
+  const getClient = (e) => e.touches ? e.touches[0].clientX : e.clientX;
+
+  const onDragStart = (e) => {
+    startXRef.current = getClient(e);
+    setIsDragging(true);
+  };
+  const onDragMove = (e) => {
+    if (!isDragging || startXRef.current === null) return;
+    const diff = getClient(e) - startXRef.current;
+    setDragX(diff);
+  };
+  const onDragEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    if (dragX < -50 && activeIndex < total - 1) setActiveIndex(i => i + 1);
+    else if (dragX > 50 && activeIndex > 0)     setActiveIndex(i => i - 1);
+    setDragX(0);
+    startXRef.current = null;
+  };
+
+  // Stack config: show up to 3 cards behind the active one
+  const stackOffsets = [0, 8, 16, 22]; // y offset per layer
+  const stackScales  = [1, 0.93, 0.86, 0.80];
+
+  return (
+    <div className="panel-card flex flex-col gap-4 w-full" style={{ overflow: "hidden" }}>
+      <SectionHeader title="My cards"/>
+
+      {/* Card stack + swipe area */}
+      <div
+        ref={containerRef}
+        style={{ position: "relative", height: 200, width: "100%",
+          display: "flex", alignItems: "flex-end", justifyContent: "center",
+          cursor: isDragging ? "grabbing" : "grab" }}
+        onMouseDown={onDragStart}
+        onMouseMove={onDragMove}
+        onMouseUp={onDragEnd}
+        onMouseLeave={onDragEnd}
+        onTouchStart={onDragStart}
+        onTouchMove={onDragMove}
+        onTouchEnd={onDragEnd}
+      >
+        {/* Render cards from back to front */}
+        {[...Array(Math.min(4, total))].map((_, layerIndex) => {
+          const cardIndex = activeIndex + (3 - layerIndex); // back layers first
+          if (cardIndex >= total) return null;
+          const isTop = cardIndex === activeIndex;
+          const depth = cardIndex - activeIndex; // 0 = top, 1 = one behind, etc.
+          const depthIdx = Math.min(depth, 3);
+
+          const translateY = stackOffsets[depthIdx];
+          const scale = stackScales[depthIdx];
+          const translateX = isTop ? dragX : 0;
+          const opacity = depthIdx > 2 ? 0 : 1;
+
+          const transition = isDragging && isTop
+            ? "none"
+            : "transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.3s ease";
+
+          // Tilt slightly on drag
+          const rotate = isTop ? dragX * 0.04 : 0;
+
+          return (
+            <CardFace
+              key={bankCards[cardIndex].id}
+              card={bankCards[cardIndex]}
+              isTop={isTop}
+              style={{
+                bottom: 0,
+                left: "50%",
+                marginLeft: -135,
+                transform: `translateX(${translateX}px) translateY(-${translateY}px) scale(${scale}) rotate(${rotate}deg)`,
+                transition,
+                opacity,
+                zIndex: 10 - depthIdx,
+              }}
+            />
+          );
+        })}
+      </div>
+
+      {/* Dot indicators */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, height: 8 }}>
+        {bankCards.map((_, i) => (
+          <div
+            key={i}
+            onClick={() => setActiveIndex(i)}
+            style={{
+              height: 8,
+              borderRadius: 100,
+              cursor: "pointer",
+              background: i === activeIndex ? "#6598f0" : "rgba(26,52,97,1)",
+              width: i === activeIndex ? 28 : 8,
+              transition: "all 0.3s ease",
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── BOTTOM SHEET ────────────────────────────────────────────────────────────
+
+function BottomSheet({ open, onClose, title, children }) {
+  return (
+    <>
+      {/* Backdrop */}
+      <div onClick={onClose} style={{
+        position: "absolute", inset: 0, background: "rgba(0,0,0,0.6)",
+        zIndex: 300, opacity: open ? 1 : 0,
+        pointerEvents: open ? "auto" : "none",
+        transition: "opacity 0.3s ease",
+      }}/>
+      {/* Sheet */}
+      <div style={{
+        position: "absolute", bottom: 0, left: 0, right: 0,
+        background: "rgba(10,22,40,1)",
+        borderRadius: "24px 24px 0 0",
+        zIndex: 301, padding: "0 0 32px",
+        transform: open ? "translateY(0)" : "translateY(100%)",
+        transition: "transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94)",
+        boxShadow: "0 -4px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)",
+      }}>
+        {/* Handle */}
+        <div style={{ display:"flex", justifyContent:"center", padding:"12px 0 8px" }}>
+          <div style={{ width:40, height:4, borderRadius:2, background:"rgba(255,255,255,0.2)" }}/>
+        </div>
+        {/* Header */}
+        <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"4px 20px 16px" }}>
+          <span style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica,sans-serif", color:"#fff", fontSize:16, letterSpacing:"-0.2px" }}>{title}</span>
+          <button onClick={onClose} style={{ background:"rgba(255,255,255,0.08)", border:"none", borderRadius:20, width:32, height:32, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="rgba(255,255,255,0.7)" strokeWidth="2" strokeLinecap="round"/></svg>
+          </button>
+        </div>
+        {children}
+      </div>
+    </>
+  );
+}
+
+// ── Sheet: Account Details ────────────────────────────────────────────────────
+function AccountDetailsSheet({ open, onClose }) {
+  const fields = [
+    { label: "Account name",   value: "Reem El-Gohary" },
+    { label: "Account number", value: "1234 5678 9012" },
+    { label: "IBAN",           value: "EG12 BMIS 0012 3456 7890 1200 0" },
+    { label: "Bank",           value: "D.Bank" },
+    { label: "Branch",         value: "Cairo — Digital" },
+    { label: "Currency",       value: "EGP" },
+  ];
+  const [copied, setCopied] = useState(null);
+  const copy = (val, key) => {
+    navigator.clipboard?.writeText(val);
+    setCopied(key);
+    setTimeout(() => setCopied(null), 1800);
+  };
+  return (
+    <BottomSheet open={open} onClose={onClose} title="Account details">
+      <div style={{ padding:"0 20px", display:"flex", flexDirection:"column", gap:2 }}>
+        {fields.map(f => (
+          <div key={f.label} style={{ display:"flex", justifyContent:"space-between", alignItems:"center",
+            padding:"14px 0", borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
+            <div>
+              <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"rgba(147,197,253,0.7)", fontSize:11, marginBottom:3 }}>{f.label}</div>
+              <div style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"#fff", fontSize:14, letterSpacing:"-0.1px" }}>{f.value}</div>
+            </div>
+            <button onClick={() => copy(f.value, f.label)} style={{ background:"rgba(255,255,255,0.06)", border:"none", borderRadius:8, padding:"6px 12px", cursor:"pointer",
+              fontFamily:"'Helvetica Neue-Medium',Helvetica", fontSize:11, color: copied===f.label ? "#4ade80" : "rgba(147,197,253,0.9)", transition:"color 0.2s" }}>
+              {copied===f.label ? "Copied!" : "Copy"}
+            </button>
+          </div>
+        ))}
+      </div>
+    </BottomSheet>
+  );
+}
+
+// ── Sheet: Add Money ──────────────────────────────────────────────────────────
+function AddMoneySheet({ open, onClose }) {
+  const [amount, setAmount] = useState("");
+  const methods = [
+    { icon: "https://c.animaapp.com/1v3dLG4K/img/income.svg", label: "Bank transfer" },
+    { icon: "https://c.animaapp.com/1v3dLG4K/img/card.svg",   label: "Debit card" },
+    { icon: "https://c.animaapp.com/1v3dLG4K/img/bank.svg",   label: "Instapay" },
+  ];
+  const [selected, setSelected] = useState(0);
+  return (
+    <BottomSheet open={open} onClose={onClose} title="Add money">
+      <div style={{ padding:"0 20px", display:"flex", flexDirection:"column", gap:20 }}>
+        {/* Amount input */}
+        <div style={{ background:"rgba(255,255,255,0.05)", borderRadius:16, padding:"16px 20px",
+          border:"1px solid rgba(147,197,253,0.15)", display:"flex", alignItems:"center", gap:8 }}>
+          <span style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"rgba(147,197,253,0.7)", fontSize:16 }}>EGP</span>
+          <input value={amount} onChange={e=>setAmount(e.target.value)} placeholder="0.00"
+            type="number" style={{ flex:1, background:"none", border:"none", outline:"none",
+            fontFamily:"'Helvetica Neue-Bold',Helvetica", color:"#fff", fontSize:28, letterSpacing:"-0.5px" }}/>
+        </div>
+        {/* Method picker */}
+        <div>
+          <div style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"rgba(255,255,255,0.5)", fontSize:11, marginBottom:10, textTransform:"uppercase", letterSpacing:"0.5px" }}>Method</div>
+          <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+            {methods.map((m,i) => (
+              <button key={i} onClick={() => setSelected(i)} style={{
+                display:"flex", alignItems:"center", gap:14, padding:"14px 16px",
+                background: selected===i ? "rgba(37,99,235,0.2)" : "rgba(255,255,255,0.04)",
+                border: selected===i ? "1px solid rgba(147,197,253,0.4)" : "1px solid rgba(255,255,255,0.06)",
+                borderRadius:14, cursor:"pointer", transition:"all 0.2s" }}>
+                <div style={{ width:36, height:36, borderRadius:10, background:"rgba(37,99,235,0.25)",
+                  display:"flex", alignItems:"center", justifyContent:"center" }}>
+                  <img src={m.icon} style={{ width:20, height:20 }}/>
+                </div>
+                <span style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"#fff", fontSize:14 }}>{m.label}</span>
+                {selected===i && <div style={{ marginLeft:"auto", width:18, height:18, borderRadius:9,
+                  background:"rgba(147,197,253,1)", display:"flex", alignItems:"center", justifyContent:"center" }}>
+                  <svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="#0a1628" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>}
+              </button>
+            ))}
+          </div>
+        </div>
+        <button style={{ width:"100%", padding:"16px", borderRadius:16, border:"none", cursor:"pointer",
+          background: amount ? "rgba(37,99,235,1)" : "rgba(37,99,235,0.3)",
+          fontFamily:"'Helvetica Neue-Bold',Helvetica", color: amount ? "#fff" : "rgba(255,255,255,0.4)", fontSize:15,
+          transition:"all 0.2s", letterSpacing:"-0.2px" }}>
+          {amount ? `Add EGP ${Number(amount).toLocaleString()}` : "Enter an amount"}
+        </button>
+      </div>
+    </BottomSheet>
+  );
+}
+
+// ── Sheet: Move Money ─────────────────────────────────────────────────────────
+function MoveMoney({ open, onClose }) {
+  const [step, setStep] = useState(0); // 0=recipient, 1=amount, 2=confirm
+  const [recipient, setRecipient] = useState("");
+  const [amount, setAmount] = useState("");
+  const recents = [
+    { name:"Ahmed Galal", img:"https://c.animaapp.com/1v3dLG4K/img/atom---default-1@2x.png" },
+    { name:"Youssef Amr", initials:"Y" },
+    { name:"Rania Ahmed", initials:"R" },
+  ];
+  const reset = () => { setStep(0); setRecipient(""); setAmount(""); onClose(); };
+
+  return (
+    <BottomSheet open={open} onClose={reset} title={["To", "Amount", "Confirm"][step]}>
+      <div style={{ padding:"0 20px" }}>
+        {step === 0 && (
+          <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+            <div style={{ display:"flex", alignItems:"center", gap:10, background:"rgba(255,255,255,0.05)",
+              borderRadius:14, padding:"12px 16px", border:"1px solid rgba(147,197,253,0.15)" }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(147,197,253,0.6)" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              <input placeholder="Name or account number" value={recipient} onChange={e=>setRecipient(e.target.value)}
+                style={{ flex:1, background:"none", border:"none", outline:"none",
+                fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"#fff", fontSize:14 }}/>
+            </div>
+            <div style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"rgba(255,255,255,0.4)", fontSize:11, textTransform:"uppercase", letterSpacing:"0.5px" }}>Recent</div>
+            {recents.map((r,i) => (
+              <button key={i} onClick={() => { setRecipient(r.name); setStep(1); }}
+                style={{ display:"flex", alignItems:"center", gap:12, background:"none", border:"none", cursor:"pointer", padding:"4px 0" }}>
+                {r.img
+                  ? <div style={{ width:40, height:40, borderRadius:20, backgroundImage:`url(${r.img})`, backgroundSize:"cover" }}/>
+                  : <div style={{ width:40, height:40, borderRadius:20, background:"#0e121c", display:"flex", alignItems:"center", justifyContent:"center" }}>
+                      <span style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"#fff", fontSize:16 }}>{r.initials}</span>
+                    </div>}
+                <span style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"#fff", fontSize:15 }}>{r.name}</span>
+                <svg style={{ marginLeft:"auto" }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+              </button>
+            ))}
+            {recipient && <button onClick={() => setStep(1)} style={{ marginTop:8, width:"100%", padding:"16px", borderRadius:16, border:"none",
+              cursor:"pointer", background:"rgba(37,99,235,1)", fontFamily:"'Helvetica Neue-Bold',Helvetica", color:"#fff", fontSize:15 }}>
+              Continue
+            </button>}
+          </div>
+        )}
+        {step === 1 && (
+          <div style={{ display:"flex", flexDirection:"column", gap:20 }}>
+            <div style={{ textAlign:"center", padding:"8px 0" }}>
+              <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"rgba(147,197,253,0.7)", fontSize:12, marginBottom:4 }}>To</div>
+              <div style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica", color:"#fff", fontSize:16 }}>{recipient}</div>
+            </div>
+            <div style={{ background:"rgba(255,255,255,0.05)", borderRadius:16, padding:"16px 20px",
+              border:"1px solid rgba(147,197,253,0.15)", display:"flex", alignItems:"center", gap:8 }}>
+              <span style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"rgba(147,197,253,0.7)", fontSize:16 }}>EGP</span>
+              <input autoFocus value={amount} onChange={e=>setAmount(e.target.value)} placeholder="0.00" type="number"
+                style={{ flex:1, background:"none", border:"none", outline:"none",
+                fontFamily:"'Helvetica Neue-Bold',Helvetica", color:"#fff", fontSize:28, letterSpacing:"-0.5px" }}/>
+            </div>
+            <div style={{ display:"flex", gap:8 }}>
+              <button onClick={() => setStep(0)} style={{ flex:1, padding:"16px", borderRadius:16, border:"1px solid rgba(255,255,255,0.1)",
+                cursor:"pointer", background:"transparent", fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"rgba(255,255,255,0.7)", fontSize:15 }}>Back</button>
+              <button onClick={() => setStep(2)} disabled={!amount} style={{ flex:2, padding:"16px", borderRadius:16, border:"none",
+                cursor: amount ? "pointer" : "default",
+                background: amount ? "rgba(37,99,235,1)" : "rgba(37,99,235,0.3)",
+                fontFamily:"'Helvetica Neue-Bold',Helvetica", color: amount ? "#fff" : "rgba(255,255,255,0.4)", fontSize:15 }}>Review</button>
+            </div>
+          </div>
+        )}
+        {step === 2 && (
+          <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+            {[["To", recipient], ["Amount", `EGP ${Number(amount).toLocaleString()}.00`], ["From", "Digital account"], ["Fee", "Free"]].map(([l,v]) => (
+              <div key={l} style={{ display:"flex", justifyContent:"space-between", padding:"12px 0",
+                borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
+                <span style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"rgba(255,255,255,0.5)", fontSize:13 }}>{l}</span>
+                <span style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"#fff", fontSize:13 }}>{v}</span>
+              </div>
+            ))}
+            <div style={{ display:"flex", gap:8, marginTop:8 }}>
+              <button onClick={() => setStep(1)} style={{ flex:1, padding:"16px", borderRadius:16, border:"1px solid rgba(255,255,255,0.1)",
+                cursor:"pointer", background:"transparent", fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"rgba(255,255,255,0.7)", fontSize:15 }}>Back</button>
+              <button onClick={reset} style={{ flex:2, padding:"16px", borderRadius:16, border:"none", cursor:"pointer",
+                background:"rgba(37,99,235,1)", fontFamily:"'Helvetica Neue-Bold',Helvetica", color:"#fff", fontSize:15 }}>Send money</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </BottomSheet>
+  );
+}
+
+// ── Sheet: View Card ──────────────────────────────────────────────────────────
+function ViewCardSheet({ open, onClose }) {
+  const [revealed, setRevealed] = useState(false);
+  return (
+    <BottomSheet open={open} onClose={() => { setRevealed(false); onClose(); }} title="My card">
+      <div style={{ padding:"0 20px", display:"flex", flexDirection:"column", gap:20 }}>
+        {/* Card visual */}
+        <div style={{ borderRadius:16, overflow:"hidden", height:180, position:"relative",
+          background:"linear-gradient(135deg,#0D1F3C 0%,#1D4ED8 60%,#6D28D9 100%)" }}>
+          <img src="https://www.figma.com/api/mcp/asset/8ce745d0-749a-4cfa-8e9b-a14fd91488e3"
+            style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
+        </div>
+        {/* Card details */}
+        {[
+          { label:"Card number", value: revealed ? "4782 1234 5678 3920" : "4782 •••• •••• 3920" },
+          { label:"Expiry",      value: revealed ? "08 / 28" : "•• / ••" },
+          { label:"CVV",         value: revealed ? "742" : "•••" },
+          { label:"Card holder", value: "Reem El-Gohary" },
+        ].map(f => (
+          <div key={f.label} style={{ display:"flex", justifyContent:"space-between", alignItems:"center",
+            padding:"12px 0", borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
+            <div>
+              <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"rgba(147,197,253,0.7)", fontSize:11, marginBottom:3 }}>{f.label}</div>
+              <div style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"#fff", fontSize:15, letterSpacing: f.label==="Card number" ? "1px" : "normal" }}>{f.value}</div>
+            </div>
+          </div>
+        ))}
+        <button onClick={() => setRevealed(v => !v)} style={{ width:"100%", padding:"16px", borderRadius:16,
+          border:"1px solid rgba(147,197,253,0.3)", cursor:"pointer", background:"rgba(37,99,235,0.15)",
+          fontFamily:"'Helvetica Neue-Bold',Helvetica", color:"rgba(147,197,253,1)", fontSize:15,
+          display:"flex", alignItems:"center", justifyContent:"center", gap:8 }}>
+          <EyeIcon open={revealed}/>
+          {revealed ? "Hide card details" : "Reveal card details"}
+        </button>
+      </div>
+    </BottomSheet>
+  );
+}
+
+// ─── SPENDING CHART ──────────────────────────────────────────────────────────
+
+const spendingData = [
+  { day: "1",  amount: 3200  },
+  { day: "6",  amount: 7800  },
+  { day: "11", amount: 5400  },
+  { day: "16", amount: 12500 },
+  { day: "21", amount: 9100  },
+  { day: "26", amount: 17300 },
+  { day: "30", amount: 20000 },
+];
+
+function SpendingChart() {
+  const [activePoint, setActivePoint] = useState(null);
+  const W = 295, H = 72;
+  const PAD = { top: 12, bottom: 4, left: 4, right: 4 };
+  const innerW = W - PAD.left - PAD.right;
+  const innerH = H - PAD.top - PAD.bottom;
+  const maxAmt = Math.max(...spendingData.map(d => d.amount));
+
+  const pts = spendingData.map((d, i) => ({
+    ...d,
+    x: PAD.left + (i / (spendingData.length - 1)) * innerW,
+    y: PAD.top + innerH - (d.amount / maxAmt) * innerH,
+  }));
+
+  // Smooth curve via cubic bezier
+  const curve = pts.reduce((acc, pt, i) => {
+    if (i === 0) return `M ${pt.x},${pt.y}`;
+    const prev = pts[i - 1];
+    const cpX = (prev.x + pt.x) / 2;
+    return acc + ` C ${cpX},${prev.y} ${cpX},${pt.y} ${pt.x},${pt.y}`;
+  }, "");
+
+  const areaPath = curve + ` L ${pts[pts.length-1].x},${H} L ${pts[0].x},${H} Z`;
+
+  return (
+    <div className="panel-card flex flex-col gap-2.5 w-full">
+      <div className="flex items-start justify-between w-full">
+        <MoneyAmount label="You spent this month" amount={activePoint ? activePoint.amount.toLocaleString() : "20,000"}/>
+        <img src="https://c.animaapp.com/1v3dLG4K/img/chevron-right-6.svg" alt="" className="w-5 h-5 mt-1"/>
+      </div>
+
+      <div className="flex flex-col items-end gap-0.5 w-full" style={{ position: "relative" }}>
+        {/* Peak label */}
+        <span className="hn-med text-blue-300 text-[8px] tracking-tight leading-normal">
+          EGP {activePoint ? activePoint.amount.toLocaleString() + ".00" : "20,000.00"}
+        </span>
+
+        {/* Chart */}
+        <svg
+          width="100%" viewBox={`0 0 ${W} ${H}`}
+          style={{ overflow: "visible", cursor: "crosshair" }}
+          onMouseLeave={() => setActivePoint(null)}
+          onTouchEnd={() => setTimeout(() => setActivePoint(null), 1800)}
+        >
+          <defs>
+            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stopColor="#6598F0" stopOpacity="0.35"/>
+              <stop offset="100%" stopColor="#6598F0" stopOpacity="0.03"/>
+            </linearGradient>
+          </defs>
+
+          {/* Area fill */}
+          <path d={areaPath} fill="url(#areaGrad)"/>
+
+          {/* Line */}
+          <path d={curve} fill="none" stroke="#6598F0" strokeWidth="1.8" strokeLinecap="round"/>
+
+          {/* Hover hit zones + dots */}
+          {pts.map((pt, i) => {
+            const isActive = activePoint && activePoint.day === pt.day;
+            return (
+              <g key={i}>
+                {/* invisible wide hit area */}
+                <rect
+                  x={pt.x - 18} y={0} width={36} height={H}
+                  fill="transparent"
+                  onMouseEnter={() => setActivePoint(pt)}
+                  onTouchStart={() => setActivePoint(pt)}
+                  style={{ cursor: "pointer" }}
+                />
+                {/* visible dot — only when active */}
+                {isActive && (
+                  <>
+                    {/* vertical guide line */}
+                    <line x1={pt.x} y1={pt.y} x2={pt.x} y2={H}
+                      stroke="rgba(101,152,240,0.35)" strokeWidth="1" strokeDasharray="3,3"/>
+                    {/* outer glow ring */}
+                    <circle cx={pt.x} cy={pt.y} r={8} fill="rgba(101,152,240,0.2)"/>
+                    {/* dot */}
+                    <circle cx={pt.x} cy={pt.y} r={4} fill="#6598F0" stroke="#fff" strokeWidth="1.5"/>
+                    {/* tooltip */}
+                    <g transform={`translate(${Math.min(Math.max(pt.x - 38, 0), W - 76)}, ${pt.y - 38})`}>
+                      <rect x={0} y={0} width={76} height={24} rx={6}
+                        fill="rgba(10,22,40,0.95)" stroke="rgba(101,152,240,0.4)" strokeWidth="1"/>
+                      <text x={38} y={15} textAnchor="middle"
+                        fill="#93C5FD" fontSize="10"
+                        fontFamily="Helvetica Neue-Medium, Helvetica, sans-serif">
+                        EGP {pt.amount.toLocaleString()}
+                      </text>
+                    </g>
+                  </>
+                )}
+                {/* always-visible subtle dot */}
+                {!isActive && (
+                  <circle cx={pt.x} cy={pt.y} r={2} fill="rgba(101,152,240,0.5)"/>
+                )}
+              </g>
+            );
+          })}
+        </svg>
+
+        {/* Baseline */}
+        <div style={{ width: "100%", height: 1, background: "rgba(101,152,240,0.2)" }}/>
+
+        {/* Day labels */}
+        <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginTop: 4 }}>
+          {pts.map(pt => (
+            <span key={pt.day}
+              className="hn-reg text-[8px]"
+              style={{
+                color: activePoint && activePoint.day === pt.day ? "rgba(147,197,253,1)" : "rgba(101,152,240,1)",
+                fontWeight: activePoint && activePoint.day === pt.day ? "600" : "400",
+                transition: "color 0.2s",
+              }}>
+              {pt.day}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── ACCOUNT DETAILS PAGE ────────────────────────────────────────────────────
+
+function AccountDetailsPage({ onBack }) {
+  const [copied, setCopied] = useState(null);
+  const [activeTab, setActiveTab] = useState('transactions');
+  const [showFreezeConfirm, setShowFreezeConfirm] = useState(false);
+  const [frozen, setFrozen] = useState(false);
+
+  const copy = (val, key) => {
+    navigator.clipboard?.writeText(val);
+    setCopied(key);
+    setTimeout(() => setCopied(null), 1800);
+  };
+
+  const accountInfo = [
+    { label: "Account number", value: "1234 5678 9012", copyable: true },
+    { label: "IBAN",           value: "EG12 BMIS 0012 3456 7890 1200 0", copyable: true },
+    { label: "Bank",           value: "D.Bank", copyable: false },
+    { label: "Branch",         value: "Cairo — Digital", copyable: false },
+    { label: "Currency",       value: "EGP", copyable: false },
+    { label: "Account type",   value: "Digital Current Account", copyable: false },
+    { label: "Opened",         value: "14 March 2022", copyable: false },
+  ];
+
+  const txns = [
+    { name:"Ahmed Galal",   amount:"+20,000", date:"Today, 10:32 AM",    positive:true,  avatar:"https://c.animaapp.com/1v3dLG4K/img/atom---default-1@2x.png" },
+    { name:"Youssef Amr",   amount:"-1,000",  date:"Today, 08:15 AM",    positive:false, initials:"Y" },
+    { name:"Rania Ahmed",   amount:"+1,000",  date:"Yesterday, 6:44 PM", positive:true,  initials:"R" },
+    { name:"Amazon.eg",     amount:"-3,450",  date:"25 Apr, 2:10 PM",    positive:false, initials:"A", color:"#FF9900" },
+    { name:"Salary",        amount:"+35,000", date:"24 Apr, 9:00 AM",    positive:true,  initials:"S", color:"#16A34A" },
+    { name:"Noon.com",      amount:"-780",    date:"23 Apr, 7:30 PM",    positive:false, initials:"N", color:"#F97316" },
+  ];
+
+  const quickActs = [
+    { icon: "https://c.animaapp.com/1v3dLG4K/img/transfer.svg",  label: "Transfer",  bg: false },
+    { icon: "https://c.animaapp.com/1v3dLG4K/img/income.svg",    label: "Add money", bg: true  },
+    { icon: "https://c.animaapp.com/1v3dLG4K/img/card.svg",      label: "Statement", bg: true  },
+    { icon: frozen
+        ? "https://c.animaapp.com/1v3dLG4K/img/analytics.svg"
+        : "https://c.animaapp.com/1v3dLG4K/img/general.svg",
+      label: frozen ? "Unfreeze" : "Freeze",    bg: true  },
+  ];
+
+  return (
+    <div style={{ background:"#000", minHeight:"100%", paddingTop:58, paddingBottom:100, position:"relative" }}>
+
+      {/* Status bar */}
+      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start",
+        position:"absolute", top:0, left:0, right:0, height:44 }}>
+        <img src="https://c.animaapp.com/1v3dLG4K/img/time-style.svg" style={{ height:44, width:91 }}/>
+        <img src="https://c.animaapp.com/1v3dLG4K/img/icons.svg" style={{ height:11, width:67, marginTop:17 }}/>
+      </div>
+
+      {/* Top bar */}
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between",
+        padding:"0 20px", height:44, marginBottom:8 }}>
+        <button onClick={onBack} style={{ background:"rgba(255,255,255,0.07)", border:"none",
+          borderRadius:20, width:36, height:36, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
+        </button>
+        <span style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica", color:"#fff", fontSize:16, letterSpacing:"-0.2px" }}>Account details</span>
+        <button style={{ background:"rgba(255,255,255,0.07)", border:"none", borderRadius:20,
+          width:36, height:36, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/>
+          </svg>
+        </button>
+      </div>
+
+      <div style={{ padding:"0 20px", display:"flex", flexDirection:"column", gap:20 }}>
+
+        {/* Balance card */}
+        <div className="panel-card" style={{ padding:24 }}>
+          {frozen && (
+            <div style={{ position:"absolute", inset:0, borderRadius:20, zIndex:10,
+              background:"rgba(10,22,40,0.85)", backdropFilter:"blur(8px)",
+              display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:8 }}>
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(147,197,253,0.8)" strokeWidth="1.5" strokeLinecap="round"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/></svg>
+              <span style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica", color:"rgba(147,197,253,1)", fontSize:14 }}>Account frozen</span>
+              <span style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"rgba(255,255,255,0.5)", fontSize:11, textAlign:"center", maxWidth:180 }}>Tap Unfreeze in quick actions to resume</span>
+            </div>
+          )}
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:16 }}>
+            <div>
+              <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"rgba(147,197,253,0.7)", fontSize:11, marginBottom:4 }}>Digital account</div>
+              <div style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica", color:"rgba(243,248,255,1)", fontSize:32, letterSpacing:"-0.5px" }}>
+                EGP 2,000,000<span style={{ fontSize:16 }}>.00</span>
+              </div>
+              <div style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"rgba(96,165,250,1)", fontSize:12, marginTop:4 }}>USD 38,432.80</div>
+            </div>
+            <div style={{ textAlign:"right" }}>
+              <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"rgba(255,255,255,0.4)", fontSize:10, marginBottom:4 }}>Available</div>
+              <div style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"rgba(255,255,255,0.7)", fontSize:13 }}>EGP 1,980,000</div>
+            </div>
+          </div>
+          {/* Mini stats */}
+          <div style={{ display:"flex", gap:1, marginTop:4 }}>
+            {[
+              { label:"Money in",  value:"EGP +56,000", color:"rgba(74,222,128,0.9)" },
+              { label:"Money out", value:"EGP -21,450", color:"rgba(248,113,113,0.9)" },
+            ].map((s,i) => (
+              <div key={i} style={{ flex:1, background:"rgba(255,255,255,0.04)", borderRadius: i===0 ? "12px 0 0 12px" : "0 12px 12px 0",
+                padding:"10px 14px", borderTop:"1px solid rgba(255,255,255,0.06)" }}>
+                <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"rgba(255,255,255,0.4)", fontSize:10, marginBottom:3 }}>{s.label}</div>
+                <div style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica", color:s.color, fontSize:12 }}>{s.value}</div>
+                <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"rgba(255,255,255,0.3)", fontSize:9, marginTop:1 }}>This month</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Quick actions */}
+        <div style={{ display:"flex", justifyContent:"space-between" }}>
+          {quickActs.map((a,i) => (
+            <button key={i}
+              onClick={() => i===3 && setShowFreezeConfirm(true)}
+              style={{ display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
+                gap:8, width:72, height:72, background:"none", border:"none", cursor:"pointer",
+                transition:"transform 0.15s" }}
+              onMouseDown={e => e.currentTarget.style.transform="scale(0.9)"}
+              onMouseUp={e => e.currentTarget.style.transform="scale(1)"}
+              onTouchStart={e => e.currentTarget.style.transform="scale(0.9)"}
+              onTouchEnd={e => e.currentTarget.style.transform="scale(1)"}
+            >
+              <div style={{ width:44, height:44, borderRadius:14,
+                background: i===3 && frozen ? "rgba(248,113,113,0.15)" : "rgba(37,99,235,0.15)",
+                border: i===3 && frozen ? "1px solid rgba(248,113,113,0.3)" : "1px solid rgba(147,197,253,0.15)",
+                display:"flex", alignItems:"center", justifyContent:"center" }}>
+                {a.bg
+                  ? <div style={{ width:22, height:22, backgroundImage:`url(${a.icon})`, backgroundSize:"100%" }}/>
+                  : <img src={a.icon} style={{ width:22, height:22 }}/>}
+              </div>
+              <span style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica",
+                color: i===3 && frozen ? "rgba(248,113,113,0.9)" : "rgba(202,207,217,1)",
+                fontSize:10, textAlign:"center" }}>{a.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Account info panel */}
+        <div className="panel-card" style={{ padding:"16px 20px" }}>
+          <div style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica", color:"#fff", fontSize:13, marginBottom:12 }}>Account information</div>
+          {accountInfo.map((f,i) => (
+            <div key={f.label} style={{ display:"flex", justifyContent:"space-between", alignItems:"center",
+              padding:"11px 0", borderBottom: i < accountInfo.length-1 ? "1px solid rgba(255,255,255,0.06)" : "none" }}>
+              <div>
+                <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"rgba(147,197,253,0.6)", fontSize:10, marginBottom:2 }}>{f.label}</div>
+                <div style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"#fff", fontSize:13 }}>{f.value}</div>
+              </div>
+              {f.copyable && (
+                <button onClick={() => copy(f.value, f.label)} style={{
+                  background:"rgba(255,255,255,0.05)", border:"1px solid rgba(255,255,255,0.08)",
+                  borderRadius:8, padding:"5px 10px", cursor:"pointer",
+                  fontFamily:"'Helvetica Neue-Medium',Helvetica", fontSize:10,
+                  color: copied===f.label ? "rgba(74,222,128,1)" : "rgba(147,197,253,0.9)",
+                  transition:"color 0.2s" }}>
+                  {copied===f.label ? "Copied ✓" : "Copy"}
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Tabs */}
+        <div style={{ display:"flex", gap:4, background:"rgba(255,255,255,0.05)", padding:4, borderRadius:14 }}>
+          {['transactions','analytics'].map(tab => (
+            <button key={tab} onClick={() => setActiveTab(tab)} style={{
+              flex:1, padding:"10px 0", borderRadius:10, border:"none", cursor:"pointer",
+              background: activeTab===tab ? "rgba(37,99,235,0.6)" : "transparent",
+              fontFamily:"'Helvetica Neue-Medium',Helvetica",
+              color: activeTab===tab ? "#fff" : "rgba(255,255,255,0.4)",
+              fontSize:13, textTransform:"capitalize",
+              transition:"all 0.2s",
+              boxShadow: activeTab===tab ? "0 2px 8px rgba(0,0,0,0.3)" : "none",
+            }}>
+              {tab.charAt(0).toUpperCase()+tab.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Transactions list */}
+        {activeTab === 'transactions' && (
+          <div className="panel-card" style={{ padding:"16px 20px", display:"flex", flexDirection:"column", gap:0 }}>
+            {txns.map((t,i) => (
+              <div key={i}>
+                <div style={{ display:"flex", alignItems:"center", gap:12, padding:"12px 0" }}>
+                  {t.avatar
+                    ? <div style={{ width:40, height:40, borderRadius:20, backgroundImage:`url(${t.avatar})`, backgroundSize:"cover", flexShrink:0 }}/>
+                    : <div style={{ width:40, height:40, borderRadius:20, background: t.color || "#0e121c",
+                        display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+                        <span style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"#fff", fontSize:16 }}>{t.initials}</span>
+                      </div>
+                  }
+                  <div style={{ flex:1, minWidth:0 }}>
+                    <div style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"#fff", fontSize:14, marginBottom:2 }}>{t.name}</div>
+                    <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"rgba(255,255,255,0.35)", fontSize:11 }}>{t.date}</div>
+                  </div>
+                  <div style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica", fontSize:15,
+                    color: t.positive ? "rgba(74,222,128,0.95)" : "rgba(248,113,113,0.95)" }}>
+                    EGP {t.amount}
+                  </div>
+                </div>
+                {i < txns.length-1 && <div style={{ height:1, background:"rgba(255,255,255,0.05)" }}/>}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Analytics tab */}
+        {activeTab === 'analytics' && (
+          <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+            {[
+              { label:"Top spending", items:[{name:"Shopping",pct:42,color:"#6598F0"},{name:"Food",pct:28,color:"#C084FC"},{name:"Transport",pct:18,color:"#4ADE80"},{name:"Other",pct:12,color:"rgba(255,255,255,0.2)"}] },
+            ].map(section => (
+              <div key={section.label} className="panel-card" style={{ padding:"16px 20px" }}>
+                <div style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica", color:"#fff", fontSize:13, marginBottom:16 }}>{section.label}</div>
+                {section.items.map((item,i) => (
+                  <div key={i} style={{ marginBottom:12 }}>
+                    <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
+                      <span style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"rgba(255,255,255,0.8)", fontSize:12 }}>{item.name}</span>
+                      <span style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica", color:"#fff", fontSize:12 }}>{item.pct}%</span>
+                    </div>
+                    <div style={{ height:6, borderRadius:3, background:"rgba(255,255,255,0.07)" }}>
+                      <div style={{ height:"100%", borderRadius:3, background:item.color, width:`${item.pct}%`, transition:"width 0.6s ease" }}/>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Freeze confirm sheet */}
+      <BottomSheet open={showFreezeConfirm} onClose={() => setShowFreezeConfirm(false)} title={frozen ? "Unfreeze account" : "Freeze account"}>
+        <div style={{ padding:"0 20px", display:"flex", flexDirection:"column", gap:16 }}>
+          <div style={{ background: frozen ? "rgba(74,222,128,0.08)" : "rgba(248,113,113,0.08)",
+            border: frozen ? "1px solid rgba(74,222,128,0.2)" : "1px solid rgba(248,113,113,0.2)",
+            borderRadius:14, padding:16, textAlign:"center" }}>
+            <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"rgba(255,255,255,0.7)", fontSize:13, lineHeight:1.6 }}>
+              {frozen
+                ? "Your account will be active again and you can make transactions immediately."
+                : "This will temporarily block all transactions on this account. You can unfreeze it anytime."}
+            </div>
+          </div>
+          <div style={{ display:"flex", gap:8 }}>
+            <button onClick={() => setShowFreezeConfirm(false)} style={{ flex:1, padding:16, borderRadius:16,
+              border:"1px solid rgba(255,255,255,0.1)", cursor:"pointer", background:"transparent",
+              fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"rgba(255,255,255,0.7)", fontSize:15 }}>Cancel</button>
+            <button onClick={() => { setFrozen(v=>!v); setShowFreezeConfirm(false); }} style={{ flex:2, padding:16, borderRadius:16, border:"none", cursor:"pointer",
+              background: frozen ? "rgba(37,99,235,1)" : "rgba(220,38,38,0.9)",
+              fontFamily:"'Helvetica Neue-Bold',Helvetica", color:"#fff", fontSize:15 }}>
+              {frozen ? "Unfreeze account" : "Yes, freeze it"}
+            </button>
+          </div>
+        </div>
+      </BottomSheet>
+    </div>
+  );
+}
+
+// ─── MAIN APP ─────────────────────────────────────────────────────────────────
+
+function EyeIcon({ open }) {
+  return open ? (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(147,197,253,0.8)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </svg>
+  ) : (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(147,197,253,0.8)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+      <line x1="1" y1="1" x2="23" y2="23"/>
+    </svg>
+  );
+}
+
+function App() {
+  const [balanceVisible, setBalanceVisible] = useState(true);
+  const [activeAccount, setActiveAccount] = useState(0);
+  const [screen, setScreen] = useState('home'); // 'home'|'account-details'
+  const [navTab, setNavTab] = useState(0); // 0=home,1=move,2=investments,3=apply,4=help
+
+  const accounts = [
+    { name: "Digital account",  egp: "2,000,000", usd: "38,432.80" },
+    { name: "Savings account",  egp: "500,000",   usd: "9,608.20"  },
+    { name: "Savings account 2", egp: "150,000",  usd: "2,882.46"  },
+  ];
+  const account = accounts[activeAccount];
+
+  // swipe on account section
+  const acctStartX = React.useRef(null);
+  const onAcctDragStart = (e) => { acctStartX.current = e.touches ? e.touches[0].clientX : e.clientX; };
+  const onAcctDragEnd   = (e) => {
+    if (acctStartX.current === null) return;
+    const endX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+    const diff = endX - acctStartX.current;
+    if (diff < -50 && activeAccount < accounts.length - 1) setActiveAccount(i => i + 1);
+    if (diff >  50 && activeAccount > 0)                   setActiveAccount(i => i - 1);
+    acctStartX.current = null;
+  };
+
+  const navPortal = ReactDOM.createPortal(
+    <BottomNav active={screen==='account-details' ? 0 : navTab} onChange={(i) => { setScreen('home'); setNavTab(i); }}/>,
+    document.getElementById('nav-root')
+  );
+
+  if (screen === 'account-details') return <>{<AccountDetailsPage onBack={() => setScreen('home')}/>}{navPortal}</>;
+
+  // Non-home tabs → Coming soon
+  if (navTab !== 0) return (
+    <div className="bg-black relative overflow-x-hidden" style={{paddingTop: 58, paddingBottom: 0, minHeight:"100%"}}>
+      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start",
+        position:"absolute", top:0, left:0, right:0, height:44 }}>
+        <img src="https://c.animaapp.com/1v3dLG4K/img/time-style.svg" style={{ height:44, width:91 }}/>
+        <img src="https://c.animaapp.com/1v3dLG4K/img/icons.svg" style={{ height:11, width:67, marginTop:17 }}/>
+      </div>
+      <div style={{ display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
+        minHeight:"calc(844px - 88px - 58px)", padding:"0 40px", textAlign:"center" }}>
+        <div style={{ width:80, height:80, borderRadius:28, marginBottom:24,
+          background:"rgba(37,99,235,0.12)", border:"1px solid rgba(147,197,253,0.2)",
+          display:"flex", alignItems:"center", justifyContent:"center" }}>
+          <img src={navItems[navTab].icon} style={{ width:36, height:36, filter:"brightness(1.2)" }}/>
+        </div>
+        <div style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica", color:"#fff", fontSize:24,
+          letterSpacing:"-0.4px", marginBottom:12 }}>Coming soon</div>
+        <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"rgba(255,255,255,0.4)",
+          fontSize:14, lineHeight:1.7, maxWidth:260 }}>
+          <span style={{ color:"rgba(147,197,253,0.9)", fontFamily:"'Helvetica Neue-Medium',Helvetica" }}>
+            {navItems[navTab].label}
+          </span> is on its way. We're working hard to bring it to you.
+        </div>
+      </div>
+      {navPortal}
+    </div>
+  );
+
+  return (
+    <div className="bg-black relative overflow-x-hidden" style={{paddingTop: 58, paddingBottom: 0}}>
+
+      {/* Status bar */}
+      <div className="flex items-start justify-between px-0 pt-0 h-11">
+        <img src="https://c.animaapp.com/1v3dLG4K/img/time-style.svg" alt="Time" className="h-11 w-[91px]"/>
+        <img src="https://c.animaapp.com/1v3dLG4K/img/icons.svg" alt="Status" className="mt-[17px] h-[11px] w-[67px]"/>
+      </div>
+
+      {/* Header */}
+      <div className="relative mx-5 h-8 mb-4">
+        <div className="absolute left-0 top-0 w-8 h-8 bg-cover bg-center rounded-full"
+          style={{ backgroundImage: "url(https://c.animaapp.com/1v3dLG4K/img/atom---default@2x.png)" }}/>
+        <p className="absolute top-1.5 left-10 hn-med text-white text-sm tracking-tight leading-5 whitespace-nowrap">Hi, Reem</p>
+        <div className="absolute top-1 right-0 flex items-center gap-4">
+          <button className="w-6 h-6 flex items-center justify-center">
+            <img src="https://c.animaapp.com/1v3dLG4K/img/search.svg" alt="Search" className="w-6 h-6"/>
+          </button>
+          <button className="relative w-6 h-6 flex items-center justify-center">
+            <img src="https://c.animaapp.com/1v3dLG4K/img/bell.svg" alt="Notifications" className="w-6 h-6"/>
+            <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-red-600"/>
+          </button>
+        </div>
+      </div>
+
+      {/* Main content column */}
+      <div className="flex flex-col gap-6 mx-5">
+
+        {/* Digital Account */}
+        <div className="flex flex-col items-center gap-4 pt-0 pb-5 px-5 rounded-[20px]"
+          onMouseDown={onAcctDragStart} onMouseUp={onAcctDragEnd}
+          onTouchStart={onAcctDragStart} onTouchEnd={onAcctDragEnd}
+          style={{ cursor: "grab", userSelect: "none" }}>
+          <div className="flex flex-col items-center gap-4 w-full">
+            <div className="flex flex-col items-center gap-4" style={{ minHeight: 100 }}>
+              {/* Account name — animates on switch */}
+              <span className="hn-bold text-sm tracking-tight leading-5" style={{color:"rgba(228,230,235,1)", transition:"opacity 0.25s ease"}}>{account.name}</span>
+              <div className="flex items-end gap-0.5 relative">
+                <span className="hn-med text-[#f3f8ff] text-sm leading-5 pb-2.5">EGP</span>
+                <span className="hn-bold text-[#f3f8ff] text-5xl tracking-tight leading-[56px]"
+                  style={{ filter: balanceVisible ? "none" : "blur(12px)", transition: "filter 0.3s ease" }}>
+                  {account.egp}
+                </span>
+                <span className="hn-med text-[#f3f8ff] text-base leading-5 pb-2.5"
+                  style={{ filter: balanceVisible ? "none" : "blur(8px)", transition: "filter 0.3s ease" }}>
+                  .00
+                </span>
+                <button
+                  onClick={() => setBalanceVisible(v => !v)}
+                  style={{ position:"absolute", right:-30, bottom:8, background:"none", border:"none", cursor:"pointer", padding:4, opacity:0.85 }}
+                  aria-label={balanceVisible ? "Hide balance" : "Show balance"}
+                >
+                  <EyeIcon open={balanceVisible}/>
+                </button>
+              </div>
+              <span className="hn-med text-blue-400 text-xs tracking-tight leading-5"
+                style={{ filter: balanceVisible ? "none" : "blur(6px)", transition: "filter 0.3s ease" }}>
+                USD {account.usd}
+              </span>
+            </div>
+            {/* Dots — clickable */}
+            <div className="flex items-center justify-center gap-1 h-2 w-full">
+              {accounts.map((_, i) => (
+                <div key={i} onClick={() => setActiveAccount(i)}
+                  style={{
+                    height: 8, borderRadius: 100, cursor: "pointer",
+                    background: i === activeAccount ? "rgba(96,165,250,1)" : "rgba(26,52,97,1)",
+                    width: i === activeAccount ? 24 : 8,
+                    transition: "all 0.3s ease",
+                  }}/>
+              ))}
+            </div>
+          </div>
+          {/* Quick actions */}
+          <div className="flex items-center justify-between w-full">
+            {quickActions.map((action, i) => {
+              return (
+                <button key={i} onClick={() => i === 0 ? setScreen('account-details') : null}
+                  className="flex flex-col items-center justify-center gap-2 w-20 h-20 p-2"
+                  style={{ transition:"transform 0.15s ease, opacity 0.15s ease" }}
+                  onMouseDown={e => e.currentTarget.style.transform="scale(0.92)"}
+                  onMouseUp={e => e.currentTarget.style.transform="scale(1)"}
+                  onTouchStart={e => e.currentTarget.style.transform="scale(0.92)"}
+                  onTouchEnd={e => e.currentTarget.style.transform="scale(1)"}
+                >
+                  {action.bg
+                    ? <div className="w-8 h-8" style={{ backgroundImage: `url(${action.icon})`, backgroundSize: "100% 100%" }}/>
+                    : <img src={action.icon} alt={action.alt} className="w-8 h-8"/>
+                  }
+                  <span className="hn-bold text-[#cacfd9] text-[10px] text-center tracking-tight leading-[normal]">
+                    {action.label[0]}<br/>{action.label[1]}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Recent Transactions */}
+        <div className="panel-card flex flex-col gap-2.5 w-full">
+          <SectionHeader title="Recent transactions"/>
+          <div className="flex flex-col gap-[15px] pt-4">
+            {transactions.map((t, i) => (
+              <div key={i}>
+                <div className="flex items-center gap-3 w-full">
+                  <div className="flex items-center gap-3 flex-1 overflow-hidden">
+                    {t.avatar
+                      ? <div className="w-10 h-10 rounded-full bg-cover bg-center flex-shrink-0"
+                          style={{ backgroundImage: `url(${t.avatar})` }}/>
+                      : <div className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center"
+                          style={{ background: "#0e121c" }}>
+                          <span className="hn-reg text-white text-lg">{t.initials}</span>
+                        </div>
+                    }
+                    <span className="hn-reg text-[#f5f7fa] text-lg tracking-tight leading-6">{t.name}</span>
+                  </div>
+                  <div className="flex items-end gap-0 flex-shrink-0">
+                    <span className={`hn-reg text-2xl tracking-tight leading-7 ${t.positive ? "text-green-600" : "text-red-600"}`}>{t.sign}</span>
+                    <span className="hn-reg text-white text-2xl tracking-tight leading-7">{t.amount}</span>
+                    <span className="hn-reg text-white text-sm leading-5 pb-0.5">.00</span>
+                  </div>
+                </div>
+                {i < transactions.length - 1 && (
+                  <div className="w-full h-px mt-[15px]" style={{ background: "rgba(255,255,255,0.08)" }}/>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* My Cards — swipeable */}
+        <SwipeableCards/>
+
+        {/* I Own */}
+        <div className="panel-card flex flex-col gap-4 w-full">
+          <div className="flex items-start justify-between w-full">
+            <MoneyAmount label="I own" amount="10,080,000" bold={true}/>
+            <img src="https://c.animaapp.com/1v3dLG4K/img/chevron-right-6.svg" alt="" className="w-5 h-5 mt-1"/>
+          </div>
+          <div className="flex items-start justify-between w-full">
+            <AssetCard {...ownCards[0]}/>
+            <AssetCard {...ownCards[1]}/>
+          </div>
+          <div className="flex items-start w-full">
+            <AssetCard {...ownCards[2]}/>
+          </div>
+        </div>
+
+        {/* I Owe */}
+        <div className="panel-card flex flex-col gap-4 w-full">
+          <div className="flex items-start justify-between w-full">
+            <MoneyAmount label="I owe" amount="10,000"/>
+            <img src="https://c.animaapp.com/1v3dLG4K/img/chevron-right-6.svg" alt="" className="w-5 h-5 mt-1"/>
+          </div>
+          <div className="flex items-start justify-between w-full">
+            <AssetCard {...oweCards[0]}/>
+            <AssetCard {...oweCards[1]}/>
+          </div>
+        </div>
+
+        {/* Net Worth */}
+        <div className="panel-card flex flex-col gap-2.5 w-full">
+          <div className="flex items-start justify-between w-full">
+            <MoneyAmount label="Net worth" amount="10,070,000"/>
+            <img src="https://c.animaapp.com/1v3dLG4K/img/chevron-right-6.svg" alt="" className="w-5 h-5 mt-1"/>
+          </div>
+          <div className="flex items-center gap-4 pt-2">
+            <div className="flex items-center gap-2">
+              <div className="w-[27px] h-[13px] rounded-[20px]" style={{background:"#5B6CF9"}}/>
+              <span className="font-medium text-[#f3f8ff] text-[15px] leading-[23px] tracking-[0.5px]" style={{fontFamily:"Roboto,Helvetica,sans-serif"}}>Debits</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-[27px] h-[13px] rounded-[20px]" style={{background:"#C084FC"}}/>
+              <span className="font-medium text-[#f3f8ff] text-[15px] leading-[23px] tracking-[0.5px]" style={{fontFamily:"Roboto,Helvetica,sans-serif"}}>Assets</span>
+            </div>
+          </div>
+          <div className="flex items-center justify-center py-4 w-full">
+            <DonutChart/>
+          </div>
+        </div>
+
+        {/* You Spent */}
+        <SpendingChart/>
+
+        {/* Rewards */}
+        <div className="panel-card flex flex-col gap-4 w-full">
+          <SectionHeader title="Rewards"/>
+          <div className="flex items-start justify-between w-full">
+            {/* Points card */}
+            <div className="glass-card glass-card-g1">
+              <span className="hn-reg text-white text-[10px] leading-4 w-[115px] z-10">Points earned</span>
+              <span className="hn-bold text-white text-sm tracking-tight leading-5 z-10">80,000</span>
+              <div className="absolute" style={{top:2, left:62, width:72, height:80}}>
+                <svg width="73" height="80" viewBox="0 0 73 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M54.2825 33.3333H17.9755C16.3046 33.3333 14.95 34.6598 14.95 36.2962V57.037C14.95 58.6734 16.3046 59.9999 17.9755 59.9999H54.2825C55.9535 59.9999 57.3081 58.6734 57.3081 57.037V36.2962C57.3081 34.6598 55.9535 33.3333 54.2825 33.3333Z" stroke="#EFF6FF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M57.957 23.3333H14.3011C13.054 23.3333 12.043 24.4525 12.043 25.8333V30.8333C12.043 32.214 13.054 33.3333 14.3011 33.3333H57.957C59.2041 33.3333 60.2151 32.214 60.2151 30.8333V25.8333C60.2151 24.4525 59.2041 23.3333 57.957 23.3333Z" stroke="#EFF6FF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M36.129 23.3333V59.9999" stroke="#93C5FD" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M36.129 23.3333C27.0968 23.3333 24.086 15 28.6021 13.3333C33.1183 11.6666 36.129 18.3333 36.129 23.3333Z" stroke="#EFF6FF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M36.129 23.3333C45.1613 23.3333 48.172 15 43.6559 13.3333C39.1398 11.6666 36.129 18.3333 36.129 23.3333Z" stroke="#EFF6FF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M18.0645 63.3333H54.1935" stroke="#93C5FD" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            {/* Cash back card */}
+            <div className="glass-card glass-card-g1">
+              <span className="hn-reg text-white text-[10px] leading-4 w-[115px] z-10">Cash back</span>
+              <p className="hn-med text-white text-[10px] leading-3 w-[115px] z-10">
+                EGP <span className="hn-bold text-sm">1,000</span><span className="hn-med text-[10px]">.00</span>
+              </p>
+              <img src="https://c.animaapp.com/1v3dLG4K/img/component-1-4.svg" alt="Cash back" className="absolute top-0.5 left-[65px] w-20 h-20"/>
+            </div>
+          </div>
+        </div>
+
+        {/* Add Widget */}
+        <button className="panel-card flex items-center gap-2 w-full cursor-pointer hover:opacity-80 transition-opacity" style={{marginBottom:"20px"}}>
+          <img src="https://c.animaapp.com/1v3dLG4K/img/icons---24pt---ui-elements---add-plus.svg" alt="Add" className="w-6 h-6"/>
+          <span className="hn-reg text-white text-sm tracking-tight leading-5">Add Widget</span>
+        </button>
+
+      </div>{/* /main column */}
+
+      {/* Quick action sheets */}
+
+      {navPortal}
+    </div>
+  );
+}
+
+function BottomNav({ active, onChange }) {
+  return (
+    <nav style={{
+      position: "absolute", bottom: 0, left: 0, right: 0,
+      height: 88,
+      background: "rgba(8,18,36,0.95)",
+      backdropFilter: "blur(16px)",
+      WebkitBackdropFilter: "blur(16px)",
+      zIndex: 100,
+      borderRadius: "0 0 42px 42px",
+      borderTop: "1px solid rgba(255,255,255,0.08)",
+    }}>
+      <ul style={{
+        display: "flex", alignItems: "center", justifyContent: "space-around",
+        padding: "10px 0 0", listStyle: "none", margin: 0,
+        height: "100%",
+      }}>
+        {navItems.map((item, i) => {
+          const isActive = i === active;
+          return (
+            <li key={i} style={{ flex: 1, display: "flex", justifyContent: "center" }}>
+              <button
+                onClick={() => onChange(i)}
+                style={{
+                  background: "none", border: "none", cursor: "pointer",
+                  display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
+                  padding: "4px 8px",
+                }}
+              >
+                <img src={item.icon} alt={item.label} style={{
+                  width: 24, height: 24,
+                  filter: isActive
+                    ? "brightness(0) invert(1)"
+                    : "brightness(0) invert(1) opacity(0.35)",
+                  transition: "filter 0.2s ease",
+                }}/>
+                <span style={{
+                  fontSize: 10, letterSpacing: "-0.1px",
+                  color: isActive ? "#93C5FD" : "rgba(255,255,255,0.35)",
+                  fontFamily: "'Helvetica Neue-Regular',Helvetica,sans-serif",
+                  transition: "color 0.2s ease",
+                  whiteSpace: "nowrap",
+                }}>
+                  {item.label}
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  );
+}
+
+// ── Dummy tab pages ───────────────────────────────────────────────────────────
+
+function PlaceholderPage({ title, icon, description, children }) {
+  return (
+    <div style={{ padding:"20px", display:"flex", flexDirection:"column", gap:20 }}>
+      <div style={{ textAlign:"center", padding:"32px 0 16px" }}>
+        <div style={{ width:72, height:72, borderRadius:24, background:"rgba(37,99,235,0.15)",
+          border:"1px solid rgba(147,197,253,0.2)", display:"flex", alignItems:"center",
+          justifyContent:"center", margin:"0 auto 16px" }}>
+          <img src={icon} style={{ width:36, height:36 }}/>
+        </div>
+        <div style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica", color:"#fff", fontSize:20, letterSpacing:"-0.3px", marginBottom:8 }}>{title}</div>
+        <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"rgba(255,255,255,0.4)", fontSize:13, lineHeight:1.6 }}>{description}</div>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function MovePage() {
+  const [step, setStep] = useState(0);
+  const [recipient, setRecipient] = useState("");
+  const [amount, setAmount] = useState("");
+  const recents = [
+    { name:"Ahmed Galal", img:"https://c.animaapp.com/1v3dLG4K/img/atom---default-1@2x.png" },
+    { name:"Youssef Amr", initials:"Y" },
+    { name:"Rania Ahmed", initials:"R" },
+  ];
+  const reset = () => { setStep(0); setRecipient(""); setAmount(""); };
+
+  return (
+    <div style={{ padding:"20px", display:"flex", flexDirection:"column", gap:20 }}>
+      {/* Step indicator */}
+      <div style={{ display:"flex", gap:6, marginBottom:4 }}>
+        {["Recipient","Amount","Confirm"].map((s,i)=>(
+          <div key={i} style={{ flex:1, height:3, borderRadius:2,
+            background: i<=step ? "rgba(37,99,235,1)" : "rgba(255,255,255,0.1)",
+            transition:"background 0.3s" }}/>
+        ))}
+      </div>
+      <div style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica", color:"#fff", fontSize:20 }}>
+        {["Who are you sending to?","How much?","Review transfer"][step]}
+      </div>
+
+      {step===0 && (
+        <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+          <div style={{ display:"flex", alignItems:"center", gap:10, background:"rgba(255,255,255,0.05)",
+            borderRadius:14, padding:"12px 16px", border:"1px solid rgba(147,197,253,0.15)" }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(147,197,253,0.6)" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input placeholder="Name, phone or account number" value={recipient} onChange={e=>setRecipient(e.target.value)}
+              style={{ flex:1, background:"none", border:"none", outline:"none",
+              fontFamily:"'Helvetica Neue-Regular',Helvetica", color:"#fff", fontSize:14 }}/>
+          </div>
+          <div style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica", color:"rgba(255,255,255,0.4)", fontSize:11, textTransform:"uppercase", letterSpacing:"0.5px" }}>Recent</div>
+          {recents.map((r,i)=>(
+            <button key={i} onClick={()=>{setRecipient(r.name);setStep(1);}}
+              style={{ display:"flex", alignItems:"center", gap:14, background:"rgba(255,255,255,0.03)",
+                border:"1px solid rgba(255,255,255,0.06)", borderRadius:14, padding:"12px 16px", cursor:"pointer" }}>
+              {r.img
+                ? <div style={{ width:40,height:40,borderRadius:20,backgroundImage:`url(${r.img})`,backgroundSize:"cover",flexShrink:0 }}/>
+                : <div style={{ width:40,height:40,borderRadius:20,background:"#0e121c",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
+                    <span style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica",color:"#fff",fontSize:16 }}>{r.initials}</span>
+                  </div>}
+              <span style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica",color:"#fff",fontSize:14 }}>{r.name}</span>
+              <svg style={{ marginLeft:"auto" }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          ))}
+          {recipient && <button onClick={()=>setStep(1)} style={{ width:"100%",padding:16,borderRadius:16,border:"none",
+            cursor:"pointer",background:"rgba(37,99,235,1)",fontFamily:"'Helvetica Neue-Bold',Helvetica",color:"#fff",fontSize:15 }}>Continue</button>}
+        </div>
+      )}
+
+      {step===1 && (
+        <div style={{ display:"flex", flexDirection:"column", gap:20 }}>
+          <div style={{ textAlign:"center",padding:"8px 0" }}>
+            <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica",color:"rgba(147,197,253,0.7)",fontSize:12,marginBottom:4 }}>To</div>
+            <div style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica",color:"#fff",fontSize:18 }}>{recipient}</div>
+          </div>
+          <div style={{ background:"rgba(255,255,255,0.05)",borderRadius:16,padding:"20px",
+            border:"1px solid rgba(147,197,253,0.15)",textAlign:"center" }}>
+            <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica",color:"rgba(147,197,253,0.6)",fontSize:12,marginBottom:8 }}>Amount</div>
+            <div style={{ display:"flex",alignItems:"center",justifyContent:"center",gap:8 }}>
+              <span style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica",color:"rgba(147,197,253,0.7)",fontSize:18 }}>EGP</span>
+              <input autoFocus value={amount} onChange={e=>setAmount(e.target.value)} placeholder="0.00" type="number"
+                style={{ background:"none",border:"none",outline:"none",textAlign:"center",
+                fontFamily:"'Helvetica Neue-Bold',Helvetica",color:"#fff",fontSize:40,letterSpacing:"-1px",width:180 }}/>
+            </div>
+          </div>
+          <div style={{ display:"flex",gap:8 }}>
+            <button onClick={()=>setStep(0)} style={{ flex:1,padding:16,borderRadius:16,border:"1px solid rgba(255,255,255,0.1)",
+              cursor:"pointer",background:"transparent",fontFamily:"'Helvetica Neue-Medium',Helvetica",color:"rgba(255,255,255,0.7)",fontSize:15 }}>Back</button>
+            <button onClick={()=>setStep(2)} disabled={!amount} style={{ flex:2,padding:16,borderRadius:16,border:"none",
+              cursor:amount?"pointer":"default",background:amount?"rgba(37,99,235,1)":"rgba(37,99,235,0.3)",
+              fontFamily:"'Helvetica Neue-Bold',Helvetica",color:amount?"#fff":"rgba(255,255,255,0.4)",fontSize:15 }}>Review</button>
+          </div>
+        </div>
+      )}
+
+      {step===2 && (
+        <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+          <div className="panel-card" style={{ padding:"16px 20px" }}>
+            {[["To",recipient],["Amount",`EGP ${Number(amount).toLocaleString()}.00`],["From","Digital account"],["Fee","Free ✓"],["Arrives","Instantly"]].map(([l,v])=>(
+              <div key={l} style={{ display:"flex",justifyContent:"space-between",padding:"11px 0",
+                borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
+                <span style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica",color:"rgba(255,255,255,0.45)",fontSize:13 }}>{l}</span>
+                <span style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica",color:v.includes("Free")?"rgba(74,222,128,0.9)":"#fff",fontSize:13 }}>{v}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{ display:"flex",gap:8 }}>
+            <button onClick={()=>setStep(1)} style={{ flex:1,padding:16,borderRadius:16,border:"1px solid rgba(255,255,255,0.1)",
+              cursor:"pointer",background:"transparent",fontFamily:"'Helvetica Neue-Medium',Helvetica",color:"rgba(255,255,255,0.7)",fontSize:15 }}>Back</button>
+            <button onClick={reset} style={{ flex:2,padding:16,borderRadius:16,border:"none",cursor:"pointer",
+              background:"rgba(37,99,235,1)",fontFamily:"'Helvetica Neue-Bold',Helvetica",color:"#fff",fontSize:15 }}>Send money 🚀</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function InvestmentsPage() {
+  const assets = [
+    { name:"Apple Inc.",   ticker:"AAPL", value:"EGP 12,450", change:"+2.4%", positive:true,  color:"#555" },
+    { name:"Tesla",        ticker:"TSLA", value:"EGP 8,200",  change:"-1.1%", positive:false, color:"#CC0000" },
+    { name:"Gold ETF",     ticker:"GLD",  value:"EGP 22,000", change:"+0.8%", positive:true,  color:"#D4A017" },
+    { name:"S&P 500 ETF",  ticker:"SPY",  value:"EGP 35,600", change:"+1.2%", positive:true,  color:"#1D4ED8" },
+  ];
+  return (
+    <PlaceholderPage title="Investments" icon="https://c.animaapp.com/1v3dLG4K/img/analytics.svg"
+      description="Track and manage your investment portfolio">
+      {/* Portfolio value */}
+      <div className="panel-card" style={{ padding:20, textAlign:"center" }}>
+        <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica",color:"rgba(147,197,253,0.7)",fontSize:12,marginBottom:6 }}>Portfolio value</div>
+        <div style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica",color:"#fff",fontSize:32,letterSpacing:"-0.5px" }}>EGP 78,250<span style={{fontSize:16}}>.00</span></div>
+        <div style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica",color:"rgba(74,222,128,0.9)",fontSize:13,marginTop:6 }}>▲ EGP 1,240 today (+1.6%)</div>
+      </div>
+      {/* Holdings */}
+      <div className="panel-card" style={{ padding:"16px 20px" }}>
+        <div style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica",color:"#fff",fontSize:13,marginBottom:12 }}>Holdings</div>
+        {assets.map((a,i)=>(
+          <div key={i} style={{ display:"flex",alignItems:"center",gap:12,padding:"11px 0",
+            borderBottom: i<assets.length-1 ? "1px solid rgba(255,255,255,0.06)" : "none" }}>
+            <div style={{ width:40,height:40,borderRadius:12,background:a.color,display:"flex",
+              alignItems:"center",justifyContent:"center",flexShrink:0 }}>
+              <span style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica",color:"#fff",fontSize:10 }}>{a.ticker}</span>
+            </div>
+            <div style={{ flex:1 }}>
+              <div style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica",color:"#fff",fontSize:13 }}>{a.name}</div>
+              <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica",color:"rgba(255,255,255,0.4)",fontSize:11,marginTop:2 }}>{a.ticker}</div>
+            </div>
+            <div style={{ textAlign:"right" }}>
+              <div style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica",color:"#fff",fontSize:13 }}>{a.value}</div>
+              <div style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica",fontSize:11,marginTop:2,
+                color: a.positive?"rgba(74,222,128,0.9)":"rgba(248,113,113,0.9)" }}>{a.change}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <button style={{ width:"100%",padding:16,borderRadius:16,border:"none",cursor:"pointer",
+        background:"rgba(37,99,235,1)",fontFamily:"'Helvetica Neue-Bold',Helvetica",color:"#fff",fontSize:15 }}>
+        Explore markets
+      </button>
+    </PlaceholderPage>
+  );
+}
+
+function ApplyPage() {
+  const products = [
+    { title:"Personal loan",   subtitle:"Up to EGP 500,000",   icon:"https://c.animaapp.com/1v3dLG4K/img/income.svg",    tag:"Low interest", tagColor:"rgba(74,222,128,0.9)" },
+    { title:"Credit card",     subtitle:"Up to EGP 100,000",   icon:"https://c.animaapp.com/1v3dLG4K/img/card.svg",      tag:"Cashback", tagColor:"rgba(147,197,253,0.9)" },
+    { title:"Car finance",     subtitle:"Up to EGP 1,000,000", icon:"https://c.animaapp.com/1v3dLG4K/img/transfer.svg",  tag:"Pre-approved", tagColor:"rgba(196,132,252,0.9)" },
+    { title:"Savings account", subtitle:"Up to 14% returns",   icon:"https://c.animaapp.com/1v3dLG4K/img/bank.svg",      tag:"New", tagColor:"rgba(251,191,36,0.9)" },
+  ];
+  return (
+    <PlaceholderPage title="Apply" icon="https://c.animaapp.com/1v3dLG4K/img/general.svg"
+      description="Products tailored to your financial profile">
+      {products.map((p,i)=>(
+        <button key={i} style={{ display:"flex",alignItems:"center",gap:14,
+          background:"rgba(255,255,255,0.03)",border:"1px solid rgba(255,255,255,0.07)",
+          borderRadius:18,padding:"16px 18px",cursor:"pointer",textAlign:"left",width:"100%",
+          transition:"border-color 0.2s" }}
+          onMouseEnter={e=>e.currentTarget.style.borderColor="rgba(147,197,253,0.25)"}
+          onMouseLeave={e=>e.currentTarget.style.borderColor="rgba(255,255,255,0.07)"}>
+          <div style={{ width:48,height:48,borderRadius:14,background:"rgba(37,99,235,0.15)",
+            border:"1px solid rgba(147,197,253,0.15)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
+            <img src={p.icon} style={{ width:24,height:24 }}/>
+          </div>
+          <div style={{ flex:1 }}>
+            <div style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica",color:"#fff",fontSize:14,marginBottom:3 }}>{p.title}</div>
+            <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica",color:"rgba(255,255,255,0.45)",fontSize:12 }}>{p.subtitle}</div>
+          </div>
+          <div style={{ display:"flex",flexDirection:"column",alignItems:"flex-end",gap:6 }}>
+            <span style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica",fontSize:10,
+              color:p.tagColor,background:`${p.tagColor.replace("0.9","0.1")}`,
+              padding:"3px 8px",borderRadius:6 }}>{p.tag}</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </button>
+      ))}
+    </PlaceholderPage>
+  );
+}
+
+function HelpPage() {
+  const faqs = [
+    { q:"How do I freeze my card?", a:"Go to Account Details → tap Freeze. Your card will be blocked immediately." },
+    { q:"How long does a transfer take?", a:"Transfers to D.Bank accounts are instant. Other banks take up to 2 hours." },
+    { q:"What are the transfer limits?", a:"EGP 50,000 per day for digital transfers. Contact support to increase your limit." },
+    { q:"How do I get my bank statement?", a:"Go to Account Details → tap Statement to download a PDF." },
+  ];
+  const [open, setOpen] = useState(null);
+  return (
+    <PlaceholderPage title="Help center" icon="https://c.animaapp.com/1v3dLG4K/img/life-buoy.svg"
+      description="We're here whenever you need us">
+      {/* Contact options */}
+      <div style={{ display:"flex",gap:10 }}>
+        {[
+          { label:"Live chat", icon:"💬", color:"rgba(37,99,235,0.8)" },
+          { label:"Call us",   icon:"📞", color:"rgba(124,58,237,0.8)" },
+        ].map((c,i)=>(
+          <button key={i} style={{ flex:1,padding:"16px 0",borderRadius:16,border:"none",cursor:"pointer",
+            background:c.color,fontFamily:"'Helvetica Neue-Bold',Helvetica",color:"#fff",fontSize:14,
+            display:"flex",flexDirection:"column",alignItems:"center",gap:6 }}>
+            <span style={{ fontSize:22 }}>{c.icon}</span>
+            {c.label}
+          </button>
+        ))}
+      </div>
+      {/* FAQs */}
+      <div className="panel-card" style={{ padding:"16px 20px" }}>
+        <div style={{ fontFamily:"'Helvetica Neue-Bold',Helvetica",color:"#fff",fontSize:13,marginBottom:12 }}>Frequently asked</div>
+        {faqs.map((f,i)=>(
+          <div key={i} style={{ borderBottom: i<faqs.length-1?"1px solid rgba(255,255,255,0.06)":"none" }}>
+            <button onClick={()=>setOpen(open===i?null:i)} style={{ display:"flex",alignItems:"center",
+              justifyContent:"space-between",width:"100%",background:"none",border:"none",
+              cursor:"pointer",padding:"12px 0",textAlign:"left" }}>
+              <span style={{ fontFamily:"'Helvetica Neue-Medium',Helvetica",color:"#fff",fontSize:13,flex:1,paddingRight:12 }}>{f.q}</span>
+              <svg style={{ transform:open===i?"rotate(90deg)":"rotate(0deg)",transition:"transform 0.2s",flexShrink:0 }}
+                width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+            {open===i && (
+              <div style={{ fontFamily:"'Helvetica Neue-Regular',Helvetica",color:"rgba(255,255,255,0.5)",
+                fontSize:12,lineHeight:1.7,paddingBottom:12 }}>{f.a}</div>
+            )}
+          </div>
+        ))}
+      </div>
+    </PlaceholderPage>
+  );
+}
+
+// Mount
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
